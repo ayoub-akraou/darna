@@ -8,12 +8,10 @@ import {
 	BanknotesIcon,
 	EyeIcon,
 	EyeSlashIcon,
-	CheckCircleIcon,
 } from "@heroicons/react/24/outline";
 
 export default function Register() {
 	const [showPassword, setShowPassword] = useState(false);
-	const [isSubmitted, setIsSubmitted] = useState(false);
 
 	const {
 		register,
@@ -23,8 +21,7 @@ export default function Register() {
 
 	const onSubmit = (data) => {
 		console.log("Register data:", data);
-		setIsSubmitted(true);
-		setTimeout(() => setIsSubmitted(false), 3000);
+		register(data)
 		// TODO: envoyer vers ton API
 	};
 
@@ -37,14 +34,6 @@ export default function Register() {
 			</div>
 
 			<div className="w-full max-w-md relative">
-				{/* Success message */}
-				{isSubmitted && (
-					<div className="absolute -top-20 left-0 right-0 bg-green-500 text-white p-4 rounded-2xl shadow-lg flex items-center gap-3 animate-bounce">
-						<CheckCircleIcon className="w-6 h-6" />
-						<span className="font-semibold">Inscription réussie !</span>
-					</div>
-				)}
-
 				<div className="bg-white/80 backdrop-blur-lg p-8 rounded-xl shadow-2xl border border-white/20">
 					<div className="text-center mb-4">
 						<div className="flex justify-center items-center gap-2">
@@ -109,7 +98,7 @@ export default function Register() {
 							<div className="relative">
 								<PhoneIcon className="w-5 h-5 absolute top-3.5 left-4 text-gray-400 group-focus-within:text-indigo-600 transition-colors" />
 								<input
-									type="text"
+									type="tel"
 									className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all bg-gray-50 focus:bg-white"
 									placeholder="0612345678"
 									{...register("phone", {
@@ -133,7 +122,7 @@ export default function Register() {
 							<div className="relative">
 								<BanknotesIcon className="w-5 h-5 absolute top-3.5 left-4 text-gray-400 group-focus-within:text-indigo-600 transition-colors" />
 								<input
-									type="text"
+									type="number"
 									className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all bg-gray-50 focus:bg-white font-mono text-sm"
 									placeholder="24 chiffres"
 									maxLength="24"
