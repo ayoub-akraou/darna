@@ -6,7 +6,8 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"serve": "npm run --workspace=api-tirelire dev",
-		"dev": "npm run --workspace=frontend dev"
+		"dev": "npm run --workspace=frontend dev",
+		"tailwind": "npm run --workspace=frontend tailwind"
 	},
 	"repository": {
 		"type": "git",
