@@ -1,4 +1,4 @@
-import MembershipModel from "../models/MembershipModel";
+import MembershipModel from "../models/MembershipModel.js";
 
 export default class MembershipRepository {
 	static async getAll() {
