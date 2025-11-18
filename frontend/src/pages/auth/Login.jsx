@@ -22,14 +22,14 @@ export default function Login() {
 	} = useForm();
 
 	const onSubmit = async (data) => {
-        try {
-            const res  = await login(data)
-            const {token, user} = res.data.data;
-            localStorage.setItem("token", token);
-			navigate("/")
-        } catch (error) {
-            console.error(error)
-        }
+		try {
+			const res = await login(data);
+			const { token, user } = res.data.data;
+			localStorage.setItem("token", token);
+			navigate("/");
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
@@ -179,7 +179,10 @@ export default function Login() {
 
 						<p className="text-center text-sm text-gray-600 mt-6">
 							Vous n'avez pas de compte ?
-							<Link to="/register" className="text-indigo-600 font-semibold hover:underline">
+							<Link
+								to="/register"
+								className="text-indigo-600 font-semibold hover:underline"
+							>
 								S'inscrire
 							</Link>
 						</p>

@@ -1,36 +1,34 @@
 {
-  "folders": [
-    { "path": "." }
-  ],
-  "settings": {},
-  "tasks": {
-    "version": "2.0.0",
-    "tasks": [
-      {
-        "label": "tailwind",
-        "command": "npm",
-        "args": ["run", "--workspace=frontend", "tailwind"],
-        "options": { "cwd": "." },
-        "isBackground": true
-      },
-      {
-        "label": "express",
-        "command": "npm",
-        "args": ["run", "--workspace=api-tirelire", "dev"],
-        "options": { "cwd": "." },
-        "isBackground": true
-      },
-      {
-        "label": "react",
-        "command": "npm",
-        "args": ["run", "--workspace=frontend", "dev"],
-        "options": { "cwd": "." },
-        "isBackground": true
-      },
-      {
-        "label": "start-all",
-        "dependsOn": ["tailwind", "express", "react"]
-      }
-    ]
-  }
+	"folders": [{ "path": "." }],
+	"settings": {},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "tailwind",
+				"command": "npm",
+				"args": ["run", "--workspace=frontend", "tailwind"],
+				"options": { "cwd": "." },
+				"isBackground": true,
+			},
+			{
+				"label": "express",
+				"command": "npm",
+				"args": ["run", "--workspace=api-tirelire", "dev"],
+				"options": { "cwd": "." },
+				"isBackground": true,
+			},
+			{
+				"label": "react",
+				"command": "npm",
+				"args": ["run", "--workspace=frontend", "dev"],
+				"options": { "cwd": "." },
+				"isBackground": true,
+			},
+			{
+				"label": "start-all",
+				"dependsOn": ["tailwind", "express", "react"],
+			},
+		],
+	},
 }

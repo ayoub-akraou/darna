@@ -1,19 +1,19 @@
-import { useState } from 'react'
-import {BrowserRouter as Router, Routes, Route} from "react-router-dom"
-import Login from './pages/auth/Login.jsx'
-import Register from './pages/auth/Register.jsx'
+import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/auth/Login.jsx";
+import Register from "./pages/auth/Register.jsx";
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [count, setCount] = useState(0);
 
-  return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-    </Router>
-  )
+	return (
+		<Router>
+			<Routes>
+				<Route path="/login" element={<Login />} />
+				<Route path="/register" element={<Register />} />
+			</Routes>
+		</Router>
+	);
 }
 
-export default App
+export default App;

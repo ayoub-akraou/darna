@@ -10,7 +10,7 @@ import {
 	EyeSlashIcon,
 } from "@heroicons/react/24/outline";
 
-import {register as registerApi} from "../../api/authApi";
+import { register as registerApi } from "../../api/authApi";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
@@ -25,10 +25,10 @@ export default function Register() {
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await registerApi(data)
-			navigate("/login")
+			const response = await registerApi(data);
+			navigate("/login");
 		} catch (error) {
-			console.error(error)
+			console.error(error);
 		}
 	};
 
@@ -192,7 +192,10 @@ export default function Register() {
 
 						<p className="text-center text-sm text-gray-600 mt-4">
 							Vous avez déjà un compte ?{" "}
-							<Link to="/login" className="text-indigo-600 font-semibold hover:underline">
+							<Link
+								to="/login"
+								className="text-indigo-600 font-semibold hover:underline"
+							>
 								Se connecter
 							</Link>
 						</p>

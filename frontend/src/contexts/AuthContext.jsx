@@ -9,55 +9,55 @@ const initialState = {
 };
 
 function authReducer(state, action) {
-    switch (action.type) {
-        case "REGISTER_SUCCESS":
-            return {
-                ...state,
-                isAuthenticated: true,
-                user: action.payload.user,
-                token: action.payload.token,
-                loading: false,
-                error: null,
-            };
-        case "REGISTER_FAILURE":
-            return {
-                ...state,
-                isAuthenticated: false,
-                user: null,
-                token: null,
-                loading: false,
-                error: action.payload.error,
-            };
-        case "LOGIN_SUCCESS":
-            return {
-                ...state,
-                isAuthenticated: true,
-                user: action.payload.user,
-                token: action.payload.token,
-                loading: false,
-                error: null,
-            };
-        case "LOGIN_FAILURE":
-            return {
-                ...state,
-                isAuthenticated: false,
-                user: null,
-                token: null,
-                loading: false,
-                error: action.payload.error,
-            };
-        case "LOGOUT":
-            return {
-                ...state,
-                isAuthenticated: false,
-                user: null,
-                token: null,
-                loading: false,
-                error: null,
-            };
-        default:
-            return state;
-    }
+	switch (action.type) {
+		case "REGISTER_SUCCESS":
+			return {
+				...state,
+				isAuthenticated: true,
+				user: action.payload.user,
+				token: action.payload.token,
+				loading: false,
+				error: null,
+			};
+		case "REGISTER_FAILURE":
+			return {
+				...state,
+				isAuthenticated: false,
+				user: null,
+				token: null,
+				loading: false,
+				error: action.payload.error,
+			};
+		case "LOGIN_SUCCESS":
+			return {
+				...state,
+				isAuthenticated: true,
+				user: action.payload.user,
+				token: action.payload.token,
+				loading: false,
+				error: null,
+			};
+		case "LOGIN_FAILURE":
+			return {
+				...state,
+				isAuthenticated: false,
+				user: null,
+				token: null,
+				loading: false,
+				error: action.payload.error,
+			};
+		case "LOGOUT":
+			return {
+				...state,
+				isAuthenticated: false,
+				user: null,
+				token: null,
+				loading: false,
+				error: null,
+			};
+		default:
+			return state;
+	}
 }
 
 const AuthContext = createContext(initialState);
