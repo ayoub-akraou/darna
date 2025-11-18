@@ -11,9 +11,10 @@ import {
 } from "@heroicons/react/24/outline";
 
 import {register as registerApi} from "../../api/authApi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
+	const navigate = useNavigate();
 	const [showPassword, setShowPassword] = useState(false);
 
 	const {
@@ -25,6 +26,7 @@ export default function Register() {
 	const onSubmit = async (data) => {
 		try {
 			const response = await registerApi(data)
+			navigate("/login")
 		} catch (error) {
 			console.error(error)
 		}
