@@ -7,11 +7,13 @@ import {
 	EyeSlashIcon,
 	ArrowRightIcon,
 } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../../api/authApi";
 
 export default function Login() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const navigate = useNavigate();
 
 	const {
 		register,
@@ -19,8 +21,15 @@ export default function Login() {
 		formState: { errors },
 	} = useForm();
 
-	const onSubmit = (data) => {
-		console.log("Login data:", data)
+	const onSubmit = async (data) => {
+        try {
+            const res  = await login(data)
+            const {token, user} = res.data.data;
+            localStorage.setItem("token", token);
+			navigate("/")
+        } catch (error) {
+            console.error(error)
+        }
 	};
 
 	return (
