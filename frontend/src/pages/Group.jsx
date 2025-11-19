@@ -12,6 +12,7 @@ import {
 	XCircleIcon,
 	MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
+import CreateGroupForm from "../components/Form/CreateGroupForm.jsx";
 
 export default function GroupsDashboard() {
 	const [activeTab, setActiveTab] = useState("created");
@@ -72,20 +73,6 @@ export default function GroupsDashboard() {
 		2: "Bimensuel",
 		3: "Trimestriel",
 		4: "Annuel",
-	};
-
-	const handleCreateGroup = (e) => {
-		e.preventDefault();
-		const formData = new FormData(e.target);
-		const data = {
-			name: formData.get("name"),
-			amount: formData.get("amount"),
-			frequency: formData.get("frequency"),
-			acceptMembers: formData.get("acceptMembers") === "on",
-		};
-		console.log("Create group:", data);
-		// TODO: API call POST /groups
-		setShowCreateModal(false);
 	};
 
 	const handleDeleteGroup = (groupId) => {
@@ -345,96 +332,7 @@ export default function GroupsDashboard() {
 			</div>
 
 			{/* Create Group Modal */}
-			{showCreateModal && (
-				<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-					<div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8">
-						<h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-6">
-							Créer un nouveau groupe
-						</h2>
-						<div onSubmit={handleCreateGroup}>
-							<div className="space-y-4">
-								<div>
-									<label className="block mb-2 font-semibold text-gray-700 text-sm">
-										Nom du groupe
-									</label>
-									<input
-										type="text"
-										name="name"
-										required
-										minLength={5}
-										maxLength={20}
-										placeholder="Ex: Famille Alami"
-										className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all"
-									/>
-								</div>
-
-								<div>
-									<label className="block mb-2 font-semibold text-gray-700 text-sm">
-										Montant (MAD)
-									</label>
-									<input
-										type="number"
-										name="amount"
-										required
-										min={100}
-										max={10000}
-										defaultValue={100}
-										className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all"
-									/>
-								</div>
-
-								<div>
-									<label className="block mb-2 font-semibold text-gray-700 text-sm">
-										Fréquence
-									</label>
-									<select
-										name="frequency"
-										className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all"
-									>
-										<option value="1">Mensuel</option>
-										<option value="2">Bimensuel</option>
-										<option value="3">Trimestriel</option>
-										<option value="4">Annuel</option>
-									</select>
-								</div>
-
-								<div className="flex items-center gap-3">
-									<input
-										type="checkbox"
-										name="acceptMembers"
-										id="acceptMembers"
-										defaultChecked
-										className="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-									/>
-									<label
-										htmlFor="acceptMembers"
-										className="text-gray-700 font-medium"
-									>
-										Accepter de nouveaux membres
-									</label>
-								</div>
-							</div>
-
-							<div className="flex gap-3 mt-6">
-								<button
-									type="button"
-									onClick={() => setShowCreateModal(false)}
-									className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl font-semibold text-gray-700 hover:bg-gray-50 transition-all"
-								>
-									Annuler
-								</button>
-								<button
-									type="button"
-									onClick={handleCreateGroup}
-									className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-3 rounded-xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg"
-								>
-									Créer
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			)}
+			{showCreateModal && <CreateGroupForm setShowCreateModal={setShowCreateModal} />}
 
 			{/* Details Modal */}
 			{showDetailsModal && selectedGroup && (
