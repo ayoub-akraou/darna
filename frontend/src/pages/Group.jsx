@@ -1,0 +1,507 @@
+import { useState } from "react";
+import {
+	PlusIcon,
+	UserGroupIcon,
+	UsersIcon,
+	TrashIcon,
+	EyeIcon,
+	CalendarIcon,
+	BanknotesIcon,
+	ClockIcon,
+	CheckCircleIcon,
+	XCircleIcon,
+	MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
+
+export default function GroupsDashboard() {
+	const [activeTab, setActiveTab] = useState("created");
+	const [showCreateModal, setShowCreateModal] = useState(false);
+	const [showDetailsModal, setShowDetailsModal] = useState(false);
+	const [selectedGroup, setSelectedGroup] = useState(null);
+	const [searchTerm, setSearchTerm] = useState("");
+
+	// Mock data - remplace avec tes vrais appels API
+	const createdGroups = [
+		{
+			_id: "1",
+			name: "Famille Dupont",
+			amount: 500,
+			frequency: 1,
+			acceptMembers: true,
+			members: 5,
+			currentCycle: 2,
+			nextPayment: "2025-12-01",
+		},
+		{
+			_id: "2",
+			name: "Amis Casablanca",
+			amount: 1000,
+			frequency: 2,
+			acceptMembers: false,
+			members: 8,
+			currentCycle: 1,
+			nextPayment: "2025-11-25",
+		},
+	];
+
+	const memberedGroups = [
+		{
+			_id: "3",
+			name: "Collègues Bureau",
+			amount: 750,
+			frequency: 1,
+			acceptMembers: true,
+			members: 6,
+			status: "accepted",
+			nextPayment: "2025-11-30",
+		},
+		{
+			_id: "4",
+			name: "Quartier Mohamed V",
+			amount: 300,
+			frequency: 3,
+			acceptMembers: true,
+			members: 4,
+			status: "pending",
+			nextPayment: "2025-12-15",
+		},
+	];
+
+	const frequencyLabels = {
+		1: "Mensuel",
+		2: "Bimensuel",
+		3: "Trimestriel",
+		4: "Annuel",
+	};
+
+	const handleCreateGroup = (e) => {
+		e.preventDefault();
+		const formData = new FormData(e.target);
+		const data = {
+			name: formData.get("name"),
+			amount: formData.get("amount"),
+			frequency: formData.get("frequency"),
+			acceptMembers: formData.get("acceptMembers") === "on",
+		};
+		console.log("Create group:", data);
+		// TODO: API call POST /groups
+		setShowCreateModal(false);
+	};
+
+	const handleDeleteGroup = (groupId) => {
+		if (confirm("Êtes-vous sûr de vouloir supprimer ce groupe ?")) {
+			console.log("Delete group:", groupId);
+			// TODO: API call DELETE /groups/:id
+		}
+	};
+
+	const handleViewDetails = (group) => {
+		setSelectedGroup(group);
+		setShowDetailsModal(true);
+		// TODO: API call GET /groups/:id et GET /groups/:id/members
+	};
+
+	const filteredCreatedGroups = createdGroups.filter((g) =>
+		g.name.toLowerCase().includes(searchTerm.toLowerCase())
+	);
+
+	const filteredMemberedGroups = memberedGroups.filter((g) =>
+		g.name.toLowerCase().includes(searchTerm.toLowerCase())
+	);
+
+	return (
+		<div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 p-6">
+			{/* Header */}
+			<div className="max-w-7xl mx-auto mb-8">
+				<div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8">
+					<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+						<div>
+							<h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
+								Mes Groupes
+							</h1>
+							<p className="text-gray-600">Gérez vos tontines et participations</p>
+						</div>
+						<button
+							onClick={() => setShowCreateModal(true)}
+							className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all shadow-lg"
+						>
+							<PlusIcon className="w-5 h-5" />
+							Créer un groupe
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div className="max-w-7xl mx-auto">
+				{/* Tabs */}
+				<div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-white/20 p-2 mb-6 flex gap-2">
+					<button
+						onClick={() => setActiveTab("created")}
+						className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all ${
+							activeTab === "created"
+								? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
+								: "text-gray-600 hover:bg-gray-100"
+						}`}
+					>
+						<UserGroupIcon className="w-5 h-5" />
+						Mes créations ({createdGroups.length})
+					</button>
+					<button
+						onClick={() => setActiveTab("membered")}
+						className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all ${
+							activeTab === "membered"
+								? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
+								: "text-gray-600 hover:bg-gray-100"
+						}`}
+					>
+						<UsersIcon className="w-5 h-5" />
+						Mes participations ({memberedGroups.length})
+					</button>
+				</div>
+
+				{/* Search */}
+				<div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-white/20 p-4 mb-6">
+					<div className="relative">
+						<MagnifyingGlassIcon className="w-5 h-5 absolute left-4 top-3.5 text-gray-400" />
+						<input
+							type="text"
+							placeholder="Rechercher un groupe..."
+							value={searchTerm}
+							onChange={(e) => setSearchTerm(e.target.value)}
+							className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all"
+						/>
+					</div>
+				</div>
+
+				{/* Groups Grid */}
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+					{activeTab === "created" &&
+						filteredCreatedGroups.map((group) => (
+							<div
+								key={group._id}
+								className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-white/20 p-6 hover:shadow-xl transition-all"
+							>
+								<div className="flex items-start justify-between mb-4">
+									<div className="flex-1">
+										<h3 className="text-xl font-bold text-gray-800 mb-1">
+											{group.name}
+										</h3>
+										<span className="inline-flex items-center gap-1 text-sm text-indigo-600 font-semibold bg-indigo-50 px-3 py-1 rounded-full">
+											<UserGroupIcon className="w-4 h-4" />
+											Administrateur
+										</span>
+									</div>
+								</div>
+
+								<div className="space-y-3 mb-4">
+									<div className="flex items-center gap-2 text-gray-700">
+										<BanknotesIcon className="w-5 h-5 text-indigo-600" />
+										<span className="font-semibold">{group.amount} MAD</span>
+									</div>
+									<div className="flex items-center gap-2 text-gray-700">
+										<ClockIcon className="w-5 h-5 text-purple-600" />
+										<span>{frequencyLabels[group.frequency]}</span>
+									</div>
+									<div className="flex items-center gap-2 text-gray-700">
+										<UsersIcon className="w-5 h-5 text-pink-600" />
+										<span>{group.members} membres</span>
+									</div>
+									<div className="flex items-center gap-2 text-gray-700">
+										<CalendarIcon className="w-5 h-5 text-green-600" />
+										<span className="text-sm">
+											Prochain:{" "}
+											{new Date(group.nextPayment).toLocaleDateString()}
+										</span>
+									</div>
+								</div>
+
+								<div className="flex items-center gap-2 mb-4">
+									{group.acceptMembers ? (
+										<span className="flex items-center gap-1 text-xs text-green-600 bg-green-50 px-2 py-1 rounded-full">
+											<CheckCircleIcon className="w-4 h-4" />
+											Ouvert
+										</span>
+									) : (
+										<span className="flex items-center gap-1 text-xs text-red-600 bg-red-50 px-2 py-1 rounded-full">
+											<XCircleIcon className="w-4 h-4" />
+											Fermé
+										</span>
+									)}
+									<span className="text-xs text-gray-500">
+										Cycle {group.currentCycle}
+									</span>
+								</div>
+
+								<div className="flex gap-2">
+									<button
+										onClick={() => handleViewDetails(group)}
+										className="flex-1 flex items-center justify-center gap-2 bg-indigo-100 text-indigo-700 px-4 py-2 rounded-xl font-semibold hover:bg-indigo-200 transition-all"
+									>
+										<EyeIcon className="w-4 h-4" />
+										Voir
+									</button>
+									<button
+										onClick={() => handleDeleteGroup(group._id)}
+										className="flex items-center justify-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-xl font-semibold hover:bg-red-200 transition-all"
+									>
+										<TrashIcon className="w-4 h-4" />
+									</button>
+								</div>
+							</div>
+						))}
+
+					{activeTab === "membered" &&
+						filteredMemberedGroups.map((group) => (
+							<div
+								key={group._id}
+								className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-white/20 p-6 hover:shadow-xl transition-all"
+							>
+								<div className="flex items-start justify-between mb-4">
+									<div className="flex-1">
+										<h3 className="text-xl font-bold text-gray-800 mb-1">
+											{group.name}
+										</h3>
+										<span
+											className={`inline-flex items-center gap-1 text-sm font-semibold px-3 py-1 rounded-full ${
+												group.status === "accepted"
+													? "text-green-600 bg-green-50"
+													: "text-yellow-600 bg-yellow-50"
+											}`}
+										>
+											{group.status === "accepted" ? (
+												<>
+													<CheckCircleIcon className="w-4 h-4" />
+													Membre actif
+												</>
+											) : (
+												<>
+													<ClockIcon className="w-4 h-4" />
+													En attente
+												</>
+											)}
+										</span>
+									</div>
+								</div>
+
+								<div className="space-y-3 mb-4">
+									<div className="flex items-center gap-2 text-gray-700">
+										<BanknotesIcon className="w-5 h-5 text-indigo-600" />
+										<span className="font-semibold">{group.amount} MAD</span>
+									</div>
+									<div className="flex items-center gap-2 text-gray-700">
+										<ClockIcon className="w-5 h-5 text-purple-600" />
+										<span>{frequencyLabels[group.frequency]}</span>
+									</div>
+									<div className="flex items-center gap-2 text-gray-700">
+										<UsersIcon className="w-5 h-5 text-pink-600" />
+										<span>{group.members} membres</span>
+									</div>
+									<div className="flex items-center gap-2 text-gray-700">
+										<CalendarIcon className="w-5 h-5 text-green-600" />
+										<span className="text-sm">
+											Prochain:{" "}
+											{new Date(group.nextPayment).toLocaleDateString()}
+										</span>
+									</div>
+								</div>
+
+								<button
+									onClick={() => handleViewDetails(group)}
+									className="w-full flex items-center justify-center gap-2 bg-indigo-100 text-indigo-700 px-4 py-2 rounded-xl font-semibold hover:bg-indigo-200 transition-all"
+								>
+									<EyeIcon className="w-4 h-4" />
+									Voir détails
+								</button>
+							</div>
+						))}
+				</div>
+
+				{/* Empty state */}
+				{((activeTab === "created" && filteredCreatedGroups.length === 0) ||
+					(activeTab === "membered" && filteredMemberedGroups.length === 0)) && (
+					<div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-white/20 p-12 text-center">
+						<UserGroupIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+						<h3 className="text-xl font-bold text-gray-800 mb-2">
+							Aucun groupe trouvé
+						</h3>
+						<p className="text-gray-600 mb-6">
+							{searchTerm
+								? "Aucun résultat pour votre recherche"
+								: activeTab === "created"
+									? "Créez votre premier groupe pour commencer"
+									: "Rejoignez un groupe pour participer"}
+						</p>
+						{!searchTerm && activeTab === "created" && (
+							<button
+								onClick={() => setShowCreateModal(true)}
+								className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all shadow-lg"
+							>
+								<PlusIcon className="w-5 h-5" />
+								Créer un groupe
+							</button>
+						)}
+					</div>
+				)}
+			</div>
+
+			{/* Create Group Modal */}
+			{showCreateModal && (
+				<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+					<div className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8">
+						<h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-6">
+							Créer un nouveau groupe
+						</h2>
+						<div onSubmit={handleCreateGroup}>
+							<div className="space-y-4">
+								<div>
+									<label className="block mb-2 font-semibold text-gray-700 text-sm">
+										Nom du groupe
+									</label>
+									<input
+										type="text"
+										name="name"
+										required
+										minLength={5}
+										maxLength={20}
+										placeholder="Ex: Famille Alami"
+										className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all"
+									/>
+								</div>
+
+								<div>
+									<label className="block mb-2 font-semibold text-gray-700 text-sm">
+										Montant (MAD)
+									</label>
+									<input
+										type="number"
+										name="amount"
+										required
+										min={100}
+										max={10000}
+										defaultValue={100}
+										className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all"
+									/>
+								</div>
+
+								<div>
+									<label className="block mb-2 font-semibold text-gray-700 text-sm">
+										Fréquence
+									</label>
+									<select
+										name="frequency"
+										className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all"
+									>
+										<option value="1">Mensuel</option>
+										<option value="2">Bimensuel</option>
+										<option value="3">Trimestriel</option>
+										<option value="4">Annuel</option>
+									</select>
+								</div>
+
+								<div className="flex items-center gap-3">
+									<input
+										type="checkbox"
+										name="acceptMembers"
+										id="acceptMembers"
+										defaultChecked
+										className="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+									/>
+									<label
+										htmlFor="acceptMembers"
+										className="text-gray-700 font-medium"
+									>
+										Accepter de nouveaux membres
+									</label>
+								</div>
+							</div>
+
+							<div className="flex gap-3 mt-6">
+								<button
+									type="button"
+									onClick={() => setShowCreateModal(false)}
+									className="flex-1 px-4 py-3 border-2 border-gray-200 rounded-xl font-semibold text-gray-700 hover:bg-gray-50 transition-all"
+								>
+									Annuler
+								</button>
+								<button
+									type="button"
+									onClick={handleCreateGroup}
+									className="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-3 rounded-xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg"
+								>
+									Créer
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
+
+			{/* Details Modal */}
+			{showDetailsModal && selectedGroup && (
+				<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+					<div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
+						<div className="flex items-start justify-between mb-6">
+							<div>
+								<h2 className="text-2xl font-bold text-gray-800">
+									{selectedGroup.name}
+								</h2>
+								<p className="text-gray-600">Détails du groupe</p>
+							</div>
+							<button
+								onClick={() => setShowDetailsModal(false)}
+								className="text-gray-400 hover:text-gray-600 transition-colors"
+							>
+								<XCircleIcon className="w-8 h-8" />
+							</button>
+						</div>
+
+						<div className="grid grid-cols-2 gap-4 mb-6">
+							<div className="bg-indigo-50 p-4 rounded-xl">
+								<div className="flex items-center gap-2 text-indigo-600 mb-1">
+									<BanknotesIcon className="w-5 h-5" />
+									<span className="text-sm font-semibold">Montant</span>
+								</div>
+								<p className="text-2xl font-bold text-gray-800">
+									{selectedGroup.amount} MAD
+								</p>
+							</div>
+							<div className="bg-purple-50 p-4 rounded-xl">
+								<div className="flex items-center gap-2 text-purple-600 mb-1">
+									<UsersIcon className="w-5 h-5" />
+									<span className="text-sm font-semibold">Membres</span>
+								</div>
+								<p className="text-2xl font-bold text-gray-800">
+									{selectedGroup.members}
+								</p>
+							</div>
+						</div>
+
+						<div className="space-y-4">
+							<div className="bg-gray-50 p-4 rounded-xl">
+								<p className="text-sm text-gray-600">Fréquence</p>
+								<p className="font-semibold text-gray-800">
+									{frequencyLabels[selectedGroup.frequency]}
+								</p>
+							</div>
+							<div className="bg-gray-50 p-4 rounded-xl">
+								<p className="text-sm text-gray-600">Statut</p>
+								<p className="font-semibold text-gray-800">
+									{selectedGroup.acceptMembers
+										? "Ouvert aux nouveaux membres"
+										: "Fermé"}
+								</p>
+							</div>
+						</div>
+
+						<button
+							onClick={() => setShowDetailsModal(false)}
+							className="w-full mt-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-3 rounded-xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg"
+						>
+							Fermer
+						</button>
+					</div>
+				</div>
+			)}
+		</div>
+	);
+}
