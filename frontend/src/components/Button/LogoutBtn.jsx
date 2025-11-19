@@ -9,7 +9,7 @@ export default function LogoutBtn() {
 		try {
 			const response = await logout();
 			localStorage.removeItem("token");
-			// navigate("/login");
+			navigate("/login");
 			toast.success("Logout successful");
 		} catch (error) {
 			console.log(error);
