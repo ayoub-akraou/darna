@@ -1,9 +1,15 @@
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { HomeIcon, Cog6ToothIcon, ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
-import LogoutBtn from "../components/Button/LogoutBtn.jsx"
+import LogoutBtn from "../components/Button/LogoutBtn.jsx";
+import { useEffect } from "react";
 
 export default function RootLayout() {
 	const navigate = useNavigate();
+	useEffect(() => {
+		if (!localStorage.getItem("token")) {
+			navigate("/login");
+		}
+	}, [navigate]);
 
 	return (
 		<div className="min-h-screen bg-gray-50">
