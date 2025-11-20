@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-
+import { createGroup } from "../../api/groupApi";
+import { toast } from "sonner";
 export default function CreateGroupForm({ setShowCreateModal }) {
 	const {
 		register,
@@ -8,10 +9,16 @@ export default function CreateGroupForm({ setShowCreateModal }) {
 		handleSubmit,
 	} = useForm();
 
-	const handleCreateGroup = (data) => {
-		console.log("Create group:", data);
-
-		// setShowCreateModal(false);
+	const handleCreateGroup = async (data) => {
+		try {
+			const res = await createGroup(data);
+			console.log(res);
+			toast.success("Groupe créé avec succès");
+			setShowCreateModal(false);
+		} catch (error) {
+			console.log(error)
+			toast.error("Une erreur est survenue");
+		}
 	};
 
 	return (
