@@ -19,10 +19,12 @@ export default class CycleService {
 		const cycle_order = data.cycle_order.map((user) => {
 			return {
 				member_id: user._id,
-				paymentByMember: data.cycle_order.map((member) => ({
-					member_id: member._id,
-					payed: false,
-				})).filter((member) => (String(member.member_id) !== String(user._id))),
+				paymentByMember: data.cycle_order
+					.map((member) => ({
+						member_id: member._id,
+						payed: false,
+					}))
+					.filter((member) => String(member.member_id) !== String(user._id)),
 			};
 		});
 		const group = await GroupRepository.getOne({ _id: group_id });

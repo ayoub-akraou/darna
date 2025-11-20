@@ -3,9 +3,9 @@ import bcrypt from "bcryptjs";
 
 export default class UserRepository {
 	static async findByEmail(email, selectPassword = false) {
-		const user = (await UserModel.findOne({ email }).select(
-			selectPassword ? "+password" : "-password"
-		)).toObject();
+		const user = (
+			await UserModel.findOne({ email }).select(selectPassword ? "+password" : "-password")
+		).toObject();
 		user.id = user._id;
 		delete user._id;
 		return user;
