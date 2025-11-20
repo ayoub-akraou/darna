@@ -30,13 +30,13 @@ export default class AuthService {
 			throw error;
 		}
 
-		const token = jwt.sign(
-			{ id: user._id, email: user.email, role: user.role },
-			process.env.JWT_SECRET,
-			{
-				// expiresIn: "1d",
-			}
-		);
+		const payload = {
+			id: user.id,
+			email: user.email,
+			role: user.role,
+		};
+
+		const token = jwt.sign(payload, process.env.JWT_SECRET, {/* expiresIn: "1d" */});
 
 		delete user.password;
 
