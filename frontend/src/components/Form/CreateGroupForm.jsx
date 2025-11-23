@@ -90,6 +90,7 @@ export default function CreateGroupForm({ setShowCreateModal }) {
 								Fréquence
 							</label>
 							<select
+								defaultValue={1}
 								{...register("frequency", { required: "Fréquence est requise" })}
 								name="frequency"
 								id="frequency"
