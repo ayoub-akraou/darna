@@ -13,7 +13,7 @@ export default function GroupCard({
 	frequencyLabels,
 	handleViewDetails,
 	handleDeleteGroup,
-	isMine
+	isMine,
 }) {
 	return (
 		<div
@@ -23,31 +23,10 @@ export default function GroupCard({
 			<div className="flex items-start justify-between mb-4">
 				<div className="flex-1">
 					<h3 className="text-xl font-bold text-gray-800 mb-1">{group.name}</h3>
-					{isMine ? (
+					{isMine && (
 						<span className="inline-flex items-center gap-1 text-sm text-indigo-600 font-semibold bg-indigo-50 px-3 py-1 rounded-full">
 							<UserGroupIcon className="w-4 h-4" />
 							Administrateur
-						</span>
-					) : (
-						<span
-							className={`inline-flex items-center gap-1 text-sm font-semibold px-3 py-1 rounded-full ${
-								group.status === "accepted"
-									? "text-green-600 bg-green-50"
-									: "text-yellow-600 bg-yellow-50"
-							}`}
-						>
-							{group.status === "accepted" && (
-								<>
-									<CheckCircleIcon className="w-4 h-4" />
-									Membre actif
-								</>
-							)}
-							{group.status === "pending" && (
-								<>
-									<ClockIcon className="w-4 h-4" />
-									En attente
-								</>
-							)}
 						</span>
 					)}
 				</div>
@@ -66,12 +45,6 @@ export default function GroupCard({
 					<UsersIcon className="w-5 h-5 text-pink-600" />
 					<span>{group.members} membres</span>
 				</div>
-				{/* <div className="flex items-center gap-2 text-gray-700">
-					<CalendarIcon className="w-5 h-5 text-green-600" />
-					<span className="text-sm">
-						Prochain: {new Date(group.nextPayment).toLocaleDateString()}
-					</span>
-				</div> */}
 			</div>
 
 			<div className="flex items-center gap-2 mb-4">
@@ -86,7 +59,7 @@ export default function GroupCard({
 						Fermé
 					</span>
 				)}
-				<span className="text-xs text-gray-500">Cycle {group.currentCycle}</span>
+				<span className="text-xs text-gray-500">Cycle {group.cycles.length + 1}</span>
 			</div>
 
 			<div className="flex gap-2">
@@ -99,7 +72,7 @@ export default function GroupCard({
 				</button>
 				{isMine && (
 					<button
-						onClick={() => handleDeleteGroup(group._id)}
+						onClick={() => handleDeleteGroup(group.id)}
 						className="flex items-center justify-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-xl font-semibold hover:bg-red-200 transition-all"
 					>
 						<TrashIcon className="w-4 h-4" />
