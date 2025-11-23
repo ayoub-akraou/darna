@@ -14,6 +14,7 @@ export default class GroupController {
 				message: "Groups retrieved successfully!",
 			});
 		} catch (error) {
+			console.log(error);
 			res.status(error.statusCode || 500).json({ success: false, message: error.message });
 		}
 	}
@@ -28,6 +29,7 @@ export default class GroupController {
 				message: "members retrieved successfully!",
 			});
 		} catch (error) {
+			console.log(error);
 			res.status(error.statusCode || 500).json({ success: false, message: error.message });
 		}
 	}
@@ -42,6 +44,7 @@ export default class GroupController {
 				message: "Groups retrieved successfully!",
 			});
 		} catch (error) {
+			console.log(error);
 			res.status(error.statusCode || 500).json({ success: false, message: error.message });
 		}
 	}
@@ -56,6 +59,7 @@ export default class GroupController {
 				message: "Groups retrieved successfully!",
 			});
 		} catch (error) {
+			console.log(error);
 			res.status(error.statusCode || 500).json({ success: false, message: error.message });
 		}
 	}
@@ -78,6 +82,7 @@ export default class GroupController {
 				message: "group created succesfuly",
 			});
 		} catch (error) {
+			console.log(error);
 			await GroupService.delete(group_id);
 			res.status(error.statusCode || 500).json({ success: false, message: error.message });
 		}
@@ -93,6 +98,7 @@ export default class GroupController {
 				message: "group retrieved succesfuly!",
 			});
 		} catch (error) {
+			console.log(error);
 			res.status(error.statusCode || 500).json({ success: false, message: error.message });
 		}
 	}
@@ -105,6 +111,7 @@ export default class GroupController {
 			await GroupService.delete(id);
 			res.sendStatus(204);
 		} catch (error) {
+			console.log(error);
 			res.status(error.statusCode || 500).json({ success: false, message: error.message });
 		}
 	}
