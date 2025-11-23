@@ -15,7 +15,7 @@ import {
 
 import CreateGroupForm from "../components/Form/CreateGroupForm.jsx";
 import GroupCard from "../components/Card/GroupCard.jsx";
-import { getCreatedGroups, getMemberedGroups } from "../api/groupApi";
+import { getCreatedGroups, getMemberedGroups, deleteGroup } from "../api/groupApi";
 
 export default function GroupsDashboard() {
 	const [activeTab, setActiveTab] = useState("created");
@@ -31,6 +31,8 @@ export default function GroupsDashboard() {
 			try {
 				const createdGroups = await getCreatedGroups();
 				const memberedGroups = await getMemberedGroups();
+				console.log(createdGroups.data.data);
+				console.log(memberedGroups.data.data);
 				setCreatedGroups(createdGroups.data.data);
 				setMemberedGroups(memberedGroups.data.data);
 			} catch (error) {
@@ -47,12 +49,13 @@ export default function GroupsDashboard() {
 		4: "Annuel",
 	};
 
-	const handleDeleteGroup = (groupId) => {
-		if (confirm("Êtes-vous sûr de vouloir supprimer ce groupe ?")) {
-			console.log("Delete group:", groupId);
-			// TODO: API call DELETE /groups/:id
+	async function handleDeleteGroup(groupId) {
+		try {
+			const response = await deleteGroup(groupId);
+		} catch (error) {
+			console.error("Error deleting group:", error);
 		}
-	};
+	}
 
 	const handleViewDetails = (group) => {
 		setSelectedGroup(group);
