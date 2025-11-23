@@ -41,6 +41,9 @@ export default class GroupRepository {
 	}
 
 	static async delete(id) {
-		return await GroupModel.findByIdAndDelete(id);
+		const group = await GroupModel.findByIdAndDelete(id);
+		console.log(group);
+		if (group) await MembershipModel.deleteMany({ group_id: id });
+		return group;
 	}
 }
