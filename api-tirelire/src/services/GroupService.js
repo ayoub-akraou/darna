@@ -22,11 +22,12 @@ export default class GroupService {
 
 	static async delete(id) {
 		const group = await GroupRepository.delete(id);
-		// if (!group) {
-		// 	const error = new Error("Not Found");
-		// 	error.statusCode = 404;
-		// 	throw error;
-		// }
+		
+		if (!group) {
+			const error = new Error("Not Found");
+			error.statusCode = 404;
+			throw error;
+		}
 		return group;
 	}
 
