@@ -31,12 +31,12 @@ export default class GroupService {
 	}
 
 	static async getGroupsCreatedByUser(user_id) {
-		const groups = GroupRepository.getOne({ admin_id: user_id });
+		const groups = await GroupRepository.getAll({ admin_id: user_id });
 		return groups;
 	}
 
 	static async getGroupsMemberedByUser(user_id) {
-		const groups = await GroupRepository.getGroupsMemberedByUser(user_id);
+		const groups = await GroupRepository.getAll({ admin_id: user_id });
 		return groups;
 	}
 }
