@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	PlusIcon,
 	UserGroupIcon,
@@ -12,7 +12,10 @@ import {
 	XCircleIcon,
 	MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
+
 import CreateGroupForm from "../components/Form/CreateGroupForm.jsx";
+import GroupCard from "../components/Card/GroupCard.jsx";
+import { getCreatedGroups, getMemberedGroups } from "../api/groupApi";
 
 export default function GroupsDashboard() {
 	const [activeTab, setActiveTab] = useState("created");
@@ -64,25 +67,7 @@ export default function GroupsDashboard() {
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 p-6">
 			{/* Header */}
-			<div className="max-w-7xl mx-auto mb-8">
-				<div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8">
-					<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-						<div>
-							<h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
-								Mes Groupes
-							</h1>
-							<p className="text-gray-600">Gérez vos tontines et participations</p>
-						</div>
-						<button
-							onClick={() => setShowCreateModal(true)}
-							className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all shadow-lg"
-						>
-							<PlusIcon className="w-5 h-5" />
-							Créer un groupe
-						</button>
-					</div>
-				</div>
-			</div>
+			<Header setShowCreateModal={setShowCreateModal} />
 
 			<div className="max-w-7xl mx-auto">
 				{/* Tabs */}
@@ -312,3 +297,26 @@ function Search({ searchTerm, setSearchTerm }) {
 	);
 }
 
+function Header({ setShowCreateModal }) {
+	return (
+		<div className="max-w-7xl mx-auto mb-8">
+			<div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8">
+				<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+					<div>
+						<h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
+							Mes Groupes
+						</h1>
+						<p className="text-gray-600">Gérez vos tontines et participations</p>
+					</div>
+					<button
+						onClick={() => setShowCreateModal(true)}
+						className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all shadow-lg"
+					>
+						<PlusIcon className="w-5 h-5" />
+						Créer un groupe
+					</button>
+				</div>
+			</div>
+		</div>
+	);
+}
