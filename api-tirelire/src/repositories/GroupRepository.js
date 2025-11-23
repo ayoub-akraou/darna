@@ -1,8 +1,20 @@
 import GroupModel from "../models/GroupModel.js";
 
 export default class GroupRepository {
-	static async getAll() {
-		return await GroupModel.find().populate("cycles.cycle_order.member_id");
+	static async getAll(filter = {}) {
+		let groups = await GroupModel.find(filter).populate("cycles.cycle_order.member_id");
+
+		groups = groups.map((group) => {
+			const groupObject = group.toObject();
+			const id = group._id;
+			delete groupObject._id;
+			return {
+				id,
+				amount: Number(groupObject.amount),
+				...groupObject,
+			};
+		});
+		return groups;
 	}
 
 	static async create(data) {
