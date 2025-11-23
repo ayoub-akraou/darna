@@ -36,7 +36,7 @@ export default class GroupService {
 	}
 
 	static async getGroupsMemberedByUser(user_id) {
-		const groups = await GroupRepository.getAll({ admin_id: user_id });
+		const groups = await GroupRepository.getGroupsMemberedByUser(user_id);
 		return groups;
 	}
 }

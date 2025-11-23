@@ -1,4 +1,5 @@
 import GroupModel from "../models/GroupModel.js";
+import MembershipModel from "../models/MembershipModel.js";
 
 export default class GroupRepository {
 	static async getAll(filter = {}) {
@@ -28,12 +29,15 @@ export default class GroupRepository {
 	}
 
 	static async getGroupsMemberedByUser(user_id) {
-		return await GroupModel.find({})
-			.populate("cycles.cycle_order.member_id")
-			.populate({
-				path: "memberships",
-				match: { member_id: user_id, status: "accepted" },
-			});
+		const memberships = await MembershipModel.find({ member_id: user_id, status: "accepted" }).populate("group_id");
+		console.log(memberships);
+		const groups = memberships?.map((membership) => {
+			const groupObject = membership?.group_id?.toObject();
+			const id = membership?.group_id?._id;
+			delete groupObject?._id;
+			return { id, ...groupObject };
+		});
+		return groups;
 	}
 
 	static async delete(id) {

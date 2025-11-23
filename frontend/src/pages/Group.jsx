@@ -24,11 +24,15 @@ export default function GroupsDashboard() {
 	const [selectedGroup, setSelectedGroup] = useState(null);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [createdGroups, setCreatedGroups] = useState([]);
+	const [memberedGroups, setMemberedGroups] = useState([]);
+
 	useEffect(() => {
 		async function fetchGroups() {
 			try {
 				const createdGroups = await getCreatedGroups();
+				const memberedGroups = await getMemberedGroups();
 				setCreatedGroups(createdGroups.data.data);
+				setMemberedGroups(memberedGroups.data.data);
 			} catch (error) {
 				console.error("Error fetching groups:", error);
 			}
@@ -97,67 +101,12 @@ export default function GroupsDashboard() {
 
 					{activeTab === "membered" &&
 						filteredMemberedGroups.map((group) => (
-							<div
-								key={group._id}
-								className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-white/20 p-6 hover:shadow-xl transition-all"
-							>
-								<div className="flex items-start justify-between mb-4">
-									<div className="flex-1">
-										<h3 className="text-xl font-bold text-gray-800 mb-1">
-											{group.name}
-										</h3>
-										<span
-											className={`inline-flex items-center gap-1 text-sm font-semibold px-3 py-1 rounded-full ${
-												group.status === "accepted"
-													? "text-green-600 bg-green-50"
-													: "text-yellow-600 bg-yellow-50"
-											}`}
-										>
-											{group.status === "accepted" ? (
-												<>
-													<CheckCircleIcon className="w-4 h-4" />
-													Membre actif
-												</>
-											) : (
-												<>
-													<ClockIcon className="w-4 h-4" />
-													En attente
-												</>
-											)}
-										</span>
-									</div>
-								</div>
-
-								<div className="space-y-3 mb-4">
-									<div className="flex items-center gap-2 text-gray-700">
-										<BanknotesIcon className="w-5 h-5 text-indigo-600" />
-										<span className="font-semibold">{group.amount} MAD</span>
-									</div>
-									<div className="flex items-center gap-2 text-gray-700">
-										<ClockIcon className="w-5 h-5 text-purple-600" />
-										<span>{frequencyLabels[group.frequency]}</span>
-									</div>
-									<div className="flex items-center gap-2 text-gray-700">
-										<UsersIcon className="w-5 h-5 text-pink-600" />
-										<span>{group.members} membres</span>
-									</div>
-									<div className="flex items-center gap-2 text-gray-700">
-										<CalendarIcon className="w-5 h-5 text-green-600" />
-										<span className="text-sm">
-											Prochain:{" "}
-											{new Date(group.nextPayment).toLocaleDateString()}
-										</span>
-									</div>
-								</div>
-
-								<button
-									onClick={() => handleViewDetails(group)}
-									className="w-full flex items-center justify-center gap-2 bg-indigo-100 text-indigo-700 px-4 py-2 rounded-xl font-semibold hover:bg-indigo-200 transition-all"
-								>
-									<EyeIcon className="w-4 h-4" />
-									Voir détails
-								</button>
-							</div>
+							<GroupCard
+								key={group.id}
+								group={group}
+								frequencyLabels={frequencyLabels}
+								handleViewDetails={handleViewDetails}
+							/>
 						))}
 				</div>
 
