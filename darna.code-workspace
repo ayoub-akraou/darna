@@ -7,28 +7,51 @@
 			{
 				"label": "tailwind",
 				"command": "npm",
-				"args": ["run", "--workspace=frontend", "tailwind"],
-				"options": { "cwd": "." },
-				"isBackground": true,
+				"args": [
+					"run",
+					"--workspace=frontend",
+					"tailwind"
+				],
+				"options": {
+					"cwd": "."
+				},
+				"isBackground": true
 			},
 			{
 				"label": "express",
 				"command": "npm",
-				"args": ["run", "--workspace=api-tirelire", "dev"],
-				"options": { "cwd": "." },
-				"isBackground": true,
+				"args": [
+					"run",
+					"--workspace=api-tirelire",
+					"dev"
+				],
+				"options": {
+					"cwd": "."
+				},
+				"isBackground": true
 			},
 			{
 				"label": "react",
 				"command": "npm",
-				"args": ["run", "--workspace=frontend", "dev"],
-				"options": { "cwd": "." },
-				"isBackground": true,
+				"args": [
+					"run",
+					"--workspace=frontend",
+					"dev"
+				],
+				"options": {
+					"cwd": "."
+				},
+				"isBackground": true
 			},
 			{
 				"label": "start-all",
-				"dependsOn": ["tailwind", "express", "react"],
-			},
+				"dependsOn": [
+					"tailwind",
+					"express",
+					"react"
+				],
+				"problemMatcher": []
+			}
 		],
 	},
 }
