@@ -14,6 +14,7 @@ const groupSchema = new Schema(
 			default: 100,
 			min: 100,
 			max: 10000,
+			get: (v) => parseFloat(v?.toString()),
 		},
 		frequency: {
 			type: Number,
@@ -75,7 +76,7 @@ const groupSchema = new Schema(
 			default: [],
 		},
 	},
-	{ timestamps: true }
+	{ timestamps: true, toObject: { getters: true } }
 );
 
 const GroupModel = mongoose.model("Group", groupSchema);
