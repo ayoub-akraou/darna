@@ -141,7 +141,13 @@ export default function GroupsDashboard() {
 			</div>
 
 			{/* Create Group Modal */}
-			{showCreateModal && <CreateGroupForm setShowCreateModal={setShowCreateModal} />}
+			{showCreateModal && (
+				<CreateGroupForm
+					setCreatedGroups={setCreatedGroups}
+					setShowCreateModal={setShowCreateModal}
+					setMemberedGroups={setMemberedGroups}
+				/>
+			)}
 
 			{/* Details Modal */}
 			{showDetailsModal && selectedGroup && (

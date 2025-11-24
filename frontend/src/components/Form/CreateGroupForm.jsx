@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { createGroup } from "../../api/groupApi";
 import { toast } from "sonner";
-export default function CreateGroupForm({ setShowCreateModal }) {
+export default function CreateGroupForm({ setShowCreateModal, setCreatedGroups, setMemberedGroups }) {
 	const {
 		register,
 		formState: { errors },
@@ -12,9 +12,12 @@ export default function CreateGroupForm({ setShowCreateModal }) {
 	const handleCreateGroup = async (data) => {
 		try {
 			const res = await createGroup(data);
-			console.log(res);
+			const group = res.data.data;
+			console.log(group);
 			toast.success("Groupe créé avec succès");
 			setShowCreateModal(false);
+			setCreatedGroups((prev) => [...prev, group]);
+			setMemberedGroups((prev) => [...prev, group]);
 		} catch (error) {
 			console.log(error)
 			toast.error("Une erreur est survenue");
@@ -96,7 +99,7 @@ export default function CreateGroupForm({ setShowCreateModal }) {
 								id="frequency"
 								className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100 transition-all"
 							>
-								<option selected value="1">
+								<option value="1">
 									Mensuel
 								</option>
 								<option value="2">bimestriel</option>
