@@ -3,12 +3,7 @@ import {
 	PlusIcon,
 	UserGroupIcon,
 	UsersIcon,
-	TrashIcon,
-	EyeIcon,
-	CalendarIcon,
 	BanknotesIcon,
-	ClockIcon,
-	CheckCircleIcon,
 	XCircleIcon,
 	MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
