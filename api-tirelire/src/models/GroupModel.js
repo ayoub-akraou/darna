@@ -76,7 +76,7 @@ const groupSchema = new Schema(
 			default: [],
 		},
 	},
-	{ timestamps: true, toObject: { getters: true } }
+	{ timestamps: true, toObject: { getters: true } , toJSON: { getters: true } }
 );
 
 const GroupModel = mongoose.model("Group", groupSchema);
