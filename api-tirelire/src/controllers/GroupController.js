@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
-import membershipModel from "../models/MembershipModel.js";
 import GroupService from "../services/GroupService.js";
-import GroupModel from "../models/GroupModel.js";
 import MembershipService from "../services/MembershipService.js";
 import MembershipRepository from "../repositories/MembershipRepository.js";
 import GroupRepository from "../repositories/GroupRepository.js";
