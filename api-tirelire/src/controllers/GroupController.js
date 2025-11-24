@@ -3,6 +3,8 @@ import membershipModel from "../models/MembershipModel.js";
 import GroupService from "../services/GroupService.js";
 import GroupModel from "../models/GroupModel.js";
 import MembershipService from "../services/MembershipService.js";
+import MembershipRepository from "../repositories/MembershipRepository.js";
+import GroupRepository from "../repositories/GroupRepository.js";
 
 export default class GroupController {
 	static async index(req, res) {
@@ -74,7 +76,7 @@ export default class GroupController {
 
 			group_id = group._id;
 
-			await MembershipService.store({ group_id, member_id: user_id, status: "accepted" });
+			await MembershipRepository.create({ group_id, member_id: user_id, status: "accepted" });
 
 			res.status(201).json({
 				success: true,
@@ -83,7 +85,7 @@ export default class GroupController {
 			});
 		} catch (error) {
 			console.log(error);
-			await GroupService.delete(group_id);
+			await GroupRepository.delete(group_id);
 			res.status(error.statusCode || 500).json({ success: false, message: error.message });
 		}
 	}
