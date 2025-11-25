@@ -1,5 +1,9 @@
 import api from "./axiosClient";
 
+export function getAllGroups() {
+	return api.get("/groups");
+}
+
 export function createGroup(data) {
 	return api.post("/groups", data);
 }
