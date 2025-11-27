@@ -55,9 +55,12 @@ export default function GroupsDashboard() {
 	async function handleDeleteGroup(groupId) {
 		try {
 			const response = await deleteGroup(groupId);
-			const updatedGroups = createdGroups.filter((group) => group.id !== groupId);
+			const updatedAllGroups = allGroups.filter((group) => group.id !== groupId);
+			const updatedCreatedGroups = createdGroups.filter((group) => group.id !== groupId);
 			const updatedMemberedGroups = memberedGroups.filter((group) => group.id !== groupId);
-			setCreatedGroups(updatedGroups);
+
+			setAllGroups(updatedAllGroups);
+			setCreatedGroups(updatedCreatedGroups);
 			setMemberedGroups(updatedMemberedGroups);
 		} catch (error) {
 			console.error("Error deleting group:", error);
