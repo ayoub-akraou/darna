@@ -227,13 +227,7 @@ function Header({ setShowCreateModal }) {
 						</h1>
 						<p className="text-gray-600">Gérez vos tontines et participations</p>
 					</div>
-					<button
-						onClick={() => setShowCreateModal(true)}
-						className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all shadow-lg"
-					>
-						<PlusIcon className="w-5 h-5" />
-						Créer un groupe
-					</button>
+					<CreateGroupButton setShowCreateModal={setShowCreateModal} />
 				</div>
 			</div>
 		</div>
@@ -279,6 +273,18 @@ function NoGroupsFound({ searchTerm, message, children }) {
 			</p>
 			{children}
 		</div>
+	);
+}
+
+function CreateGroupButton({ setShowCreateModal }) {
+	return (
+		<button
+			onClick={() => setShowCreateModal(true)}
+			className="inline-flex items-center gap-2 bg-linear-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all shadow-lg"
+		>
+			<PlusIcon className="w-5 h-5" />
+			Créer un groupe
+		</button>
 	);
 }
 
