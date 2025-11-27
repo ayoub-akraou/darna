@@ -27,3 +27,7 @@ export function getGroupMembers(id) {
 export function deleteGroup(id) {
 	return api.delete(`/groups/${id}`);
 }
+
+export function joinGroup(group_id) {
+	return api.post(`/memberships/${group_id}`);
+}
