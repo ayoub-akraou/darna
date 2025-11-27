@@ -189,69 +189,11 @@ export default function GroupsDashboard() {
 
 			{/* Details Modal */}
 			{showDetailsModal && selectedGroup && (
-				<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-					<div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
-						<div className="flex items-start justify-between mb-6">
-							<div>
-								<h2 className="text-2xl font-bold text-gray-800">
-									{selectedGroup.name}
-								</h2>
-								<p className="text-gray-600">Détails du groupe</p>
-							</div>
-							<button
-								onClick={() => setShowDetailsModal(false)}
-								className="text-gray-400 hover:text-gray-600 transition-colors"
-							>
-								<XCircleIcon className="w-8 h-8" />
-							</button>
-						</div>
-
-						<div className="grid grid-cols-2 gap-4 mb-6">
-							<div className="bg-indigo-50 p-4 rounded-xl">
-								<div className="flex items-center gap-2 text-indigo-600 mb-1">
-									<BanknotesIcon className="w-5 h-5" />
-									<span className="text-sm font-semibold">Montant</span>
-								</div>
-								<p className="text-2xl font-bold text-gray-800">
-									{selectedGroup.amount} MAD
-								</p>
-							</div>
-							<div className="bg-purple-50 p-4 rounded-xl">
-								<div className="flex items-center gap-2 text-purple-600 mb-1">
-									<UsersIcon className="w-5 h-5" />
-									<span className="text-sm font-semibold">Membres</span>
-								</div>
-								<p className="text-2xl font-bold text-gray-800">
-									{selectedGroup.members}
-								</p>
-							</div>
-						</div>
-
-						<div className="space-y-4">
-							<div className="bg-gray-50 p-4 rounded-xl">
-								<p className="text-sm text-gray-600">Fréquence</p>
-								<p className="font-semibold text-gray-800">
-									{frequencyLabels[selectedGroup.frequency]}
-								</p>
-							</div>
-							<div className="bg-gray-50 p-4 rounded-xl">
-								<p className="text-sm text-gray-600">Statut</p>
-								<p className="font-semibold text-gray-800">
-									{selectedGroup.acceptMembers
-										? "Ouvert aux nouveaux membres"
-										: "Fermé"}
-								</p>
-							</div>
-						</div>
-
-						<button
-							onClick={() => setShowDetailsModal(false)}
-							className="w-full mt-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-3 rounded-xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg"
-						>
-							Fermer
-						</button>
-					</div>
-				</div>
+				<ShowGroupDetailsModal
+					selectedGroup={selectedGroup}
+					setShowDetailsModal={setShowDetailsModal}
+					frequencyLabels={frequencyLabels}
+				/>
 			)}
 		</div>
 	);
@@ -340,3 +282,68 @@ function NoGroupsFound({ searchTerm, message, children }) {
 	);
 }
 
+function ShowGroupDetailsModal({ selectedGroup, setShowDetailsModal, frequencyLabels }) {
+	return (
+		<div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+			<div className="bg-white rounded-3xl shadow-2xl max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
+				<div className="flex items-start justify-between mb-6">
+					<div>
+						<h2 className="text-2xl font-bold text-gray-800">{selectedGroup.name}</h2>
+						<p className="text-gray-600">Détails du groupe</p>
+					</div>
+					<button
+						onClick={() => setShowDetailsModal(false)}
+						className="text-gray-400 hover:text-gray-600 transition-colors"
+					>
+						<XCircleIcon className="w-8 h-8" />
+					</button>
+				</div>
+
+				<div className="grid grid-cols-2 gap-4 mb-6">
+					<div className="bg-indigo-50 p-4 rounded-xl">
+						<div className="flex items-center gap-2 text-indigo-600 mb-1">
+							<BanknotesIcon className="w-5 h-5" />
+							<span className="text-sm font-semibold">Montant</span>
+						</div>
+						<p className="text-2xl font-bold text-gray-800">
+							{selectedGroup.amount} MAD
+						</p>
+					</div>
+					<div className="bg-purple-50 p-4 rounded-xl">
+						<div className="flex items-center gap-2 text-purple-600 mb-1">
+							<UsersIcon className="w-5 h-5" />
+							<span className="text-sm font-semibold">Membres</span>
+						</div>
+						<ul className="font-bold text-gray-800 font-medium">
+							{selectedGroup.members.map((member) => {
+								return <li key={member.id}>{member.name}</li>;
+							})}
+						</ul>
+					</div>
+				</div>
+
+				<div className="space-y-4">
+					<div className="bg-gray-50 p-4 rounded-xl">
+						<p className="text-sm text-gray-600">Fréquence</p>
+						<p className="font-semibold text-gray-800">
+							{frequencyLabels[selectedGroup.frequency]}
+						</p>
+					</div>
+					<div className="bg-gray-50 p-4 rounded-xl">
+						<p className="text-sm text-gray-600">Statut</p>
+						<p className="font-semibold text-gray-800">
+							{selectedGroup.acceptMembers ? "Ouvert aux nouveaux membres" : "Fermé"}
+						</p>
+					</div>
+				</div>
+
+				<button
+					onClick={() => setShowDetailsModal(false)}
+					className="w-full mt-6 bg-linear-to-r from-indigo-600 to-purple-600 text-white px-4 py-3 rounded-xl font-bold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg"
+				>
+					Fermer
+				</button>
+			</div>
+		</div>
+	);
+}
