@@ -21,7 +21,12 @@ export default class MembershipRepository {
 			group_id,
 			status: "accepted",
 		}).populate("member_id");
-		return members.map((m) => m.member_id);
+		return members.map((m) => {
+			const member = m.member_id.toObject()
+			member.id = member._id
+			delete member._id
+			return member
+			});
 	}
 
 	static async create(data) {
