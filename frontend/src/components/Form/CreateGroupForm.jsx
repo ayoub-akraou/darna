@@ -1,8 +1,9 @@
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { createGroup } from "../../api/groupApi";
+import { createGroup, getAllGroups, getCreatedGroups, getMemberedGroups } from "../../api/groupApi";
 import { toast } from "sonner";
-export default function CreateGroupForm({ setShowCreateModal, setCreatedGroups, setMemberedGroups }) {
+export default function CreateGroupForm({ setShowCreateModal, setCreatedGroups, setMemberedGroups, setAllGroups }) {
+	
+	
 	const {
 		register,
 		formState: { errors },
@@ -13,11 +14,15 @@ export default function CreateGroupForm({ setShowCreateModal, setCreatedGroups, 
 		try {
 			const res = await createGroup(data);
 			const group = res.data.data;
-			console.log(group);
 			toast.success("Groupe créé avec succès");
 			setShowCreateModal(false);
-			setCreatedGroups((prev) => [...prev, group]);
-			setMemberedGroups((prev) => [...prev, group]);
+
+			const updatedAllGroups = await getAllGroups();
+			const updatedCreatedGroups = await getCreatedGroups();
+			const updatedMemberedGroups = await getMemberedGroups();
+			setAllGroups(updatedAllGroups.data.data);
+			setCreatedGroups(updatedCreatedGroups.data.data);
+			setMemberedGroups(updatedMemberedGroups.data.data);
 		} catch (error) {
 			console.log(error)
 			toast.error("Une erreur est survenue");
