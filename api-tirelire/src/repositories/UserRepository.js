@@ -5,7 +5,8 @@ export default class UserRepository {
 	static async findByEmail(email, selectPassword = false) {
 		const user = (
 			await UserModel.findOne({ email }).select(selectPassword ? "+password" : "-password")
-		).toObject();
+		)?.toObject();
+		if (!user) return null;
 		user.id = user._id;
 		delete user._id;
 		return user;
