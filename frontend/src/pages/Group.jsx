@@ -67,9 +67,10 @@ export default function GroupsDashboard() {
 		}
 	}
 
-	const handleViewDetails = (group) => {
+	async function handleViewDetails(group) {
 		setSelectedGroup(group);
 		setShowDetailsModal(true);
+	}
 
 	async function handleJoinGroup(groupId) {
 		try {
