@@ -94,7 +94,7 @@ export default function GroupsDashboard() {
 	);
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-indigo-100 via-purple-50 to-pink-100 p-6">
+		<div className="min-h-screen bg-linear-to-br from-indigo-100 via-purple-50 to-pink-100 p-6">
 			{/* Header */}
 			<Header setShowCreateModal={setShowCreateModal} />
 
@@ -222,7 +222,7 @@ function Header({ setShowCreateModal }) {
 			<div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/20 p-8">
 				<div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 					<div>
-						<h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
+						<h1 className="text-4xl font-bold bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
 							Mes Groupes
 						</h1>
 						<p className="text-gray-600">Gérez vos tontines et participations</p>
@@ -241,7 +241,7 @@ function Tabs({ activeTab, setActiveTab, createdGroups, memberedGroups }) {
 				onClick={() => setActiveTab("created")}
 				className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all ${
 					activeTab === "created"
-						? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
+						? "bg-linear-to-r from-indigo-600 to-purple-600 text-white shadow-md"
 						: "text-gray-600 hover:bg-gray-100"
 				}`}
 			>
@@ -252,7 +252,7 @@ function Tabs({ activeTab, setActiveTab, createdGroups, memberedGroups }) {
 				onClick={() => setActiveTab("membered")}
 				className={`flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all ${
 					activeTab === "membered"
-						? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md"
+						? "bg-linear-to-r from-indigo-600 to-purple-600 text-white shadow-md"
 						: "text-gray-600 hover:bg-gray-100"
 				}`}
 			>
