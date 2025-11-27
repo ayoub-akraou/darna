@@ -14,7 +14,8 @@ function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/" element={<MainLayout />}>
-						<Route index element={<Group />} />
+						{/* <Route index path="home" element={<Home />} /> */}
+						<Route path="groups" element={<Group />} />
 					</Route>
 				</Routes>
 			</Router>
