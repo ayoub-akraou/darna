@@ -6,7 +6,7 @@ import {
 	BanknotesIcon,
 	XCircleIcon,
 } from "@heroicons/react/24/outline";
-
+import Tabs from "../components/Tabs/Tabs.jsx";
 import CreateGroupForm from "../components/Form/CreateGroupForm.jsx";
 import GroupCard from "../components/Card/GroupCard.jsx";
 import SearchBar from "../components/SearchBar/SearchBar.jsx";
