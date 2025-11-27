@@ -10,7 +10,13 @@ import {
 
 import CreateGroupForm from "../components/Form/CreateGroupForm.jsx";
 import GroupCard from "../components/Card/GroupCard.jsx";
-import { getCreatedGroups, getMemberedGroups, deleteGroup } from "../api/groupApi";
+import {
+	getCreatedGroups,
+	getMemberedGroups,
+	deleteGroup,
+	getAllGroups,
+	joinGroup,
+} from "../api/groupApi";
 
 export default function GroupsDashboard() {
 	const [activeTab, setActiveTab] = useState("created");
@@ -59,8 +65,19 @@ export default function GroupsDashboard() {
 	const handleViewDetails = (group) => {
 		setSelectedGroup(group);
 		setShowDetailsModal(true);
-		// TODO: API call GET /groups/:id et GET /groups/:id/members
-	};
+
+	async function handleJoinGroup(groupId) {
+		try {
+			await joinGroup(groupId);
+			// Refresh groups after joining
+			const allGroups = await getAllGroups();
+			const memberedGroups = await getMemberedGroups();
+			setAllGroups(allGroups.data.data);
+			setMemberedGroups(memberedGroups.data.data);
+		} catch (error) {
+			console.error("Error joining group:", error);
+		}
+	}
 
 	const filteredCreatedGroups = createdGroups.filter((g) =>
 		g.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -102,7 +119,18 @@ export default function GroupsDashboard() {
 						))}
 
 					{activeTab === "membered" &&
-						filteredMemberedGroups.map((group) => (
+						filteredMemberedGroups.map((group) => {
+							return (
+								<GroupCard
+									key={group.id}
+									group={group}
+									frequencyLabels={frequencyLabels}
+									handleViewDetails={handleViewDetails}
+									withJoinButton={false}
+								/>
+							);
+						})}
+
 							<GroupCard
 								key={group.id}
 								group={group}

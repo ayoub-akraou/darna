@@ -2,23 +2,26 @@ import UserGroupIcon from "@heroicons/react/24/outline/UserGroupIcon";
 import BanknotesIcon from "@heroicons/react/24/outline/BanknotesIcon";
 import ClockIcon from "@heroicons/react/24/outline/ClockIcon";
 import UsersIcon from "@heroicons/react/24/outline/UsersIcon";
-import CalendarIcon from "@heroicons/react/24/outline/CalendarIcon";
 import CheckCircleIcon from "@heroicons/react/24/outline/CheckCircleIcon";
 import XCircleIcon from "@heroicons/react/24/outline/XCircleIcon";
 import EyeIcon from "@heroicons/react/24/outline/EyeIcon";
 import TrashIcon from "@heroicons/react/24/outline/TrashIcon";
+import { CirclePlus } from "lucide-react";
 
 export default function GroupCard({
 	group,
 	frequencyLabels,
 	handleViewDetails,
 	handleDeleteGroup,
+	handleJoinGroup,
+	isJoined,
+	withJoinButton = true,
 	isMine,
 }) {
 	return (
 		<div
 			key={group._id}
-			className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-white/20 p-6 hover:shadow-xl transition-all"
+			className="relative bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-white/20 p-6 hover:shadow-xl transition-all"
 		>
 			<div className="flex items-start justify-between mb-4">
 				<div className="flex-1">
@@ -30,6 +33,16 @@ export default function GroupCard({
 						</span>
 					)}
 				</div>
+				{!isMine && withJoinButton && (
+					<button
+						disabled={isJoined}
+						onClick={() => handleJoinGroup(group.id)}
+						className={` font-medium pl-3 pr-2 py-1.5 rounded-full flex items-center gap-1.5  ${isJoined ? "bg-gray-300 cursor-not-allowed!" : "active:scale-95 bg-green-500"}`}
+					>
+						<span className="text-white">join</span>
+						<CirclePlus className="w-6 h-6 text-white" />
+					</button>
+				)}
 			</div>
 
 			<div className="space-y-3 mb-4">
@@ -43,7 +56,7 @@ export default function GroupCard({
 				</div>
 				<div className="flex items-center gap-2 text-gray-700">
 					<UsersIcon className="w-5 h-5 text-pink-600" />
-					<span>{group.members} membres</span>
+					<span>{group?.members?.length} membres</span>
 				</div>
 			</div>
 
