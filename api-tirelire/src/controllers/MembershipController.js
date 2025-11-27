@@ -16,12 +16,13 @@ export default class MembershipController {
 
 	static async store(req, res) {
 		try {
-			const data = { ...req.body, user_id: req.user.id };
+			const group_id = req.params.group_id;
+			const data = { ...req.body, user_id: req.user.id, group_id };
 			const membership = await MembershipService.store(data);
 			res.status(201).json({
 				success: true,
 				data: membership,
-				message: "membership created succesfuly",
+				message: "membership created successfully",
 			});
 		} catch (error) {
 			res.status(error.statusCode || 500).json({ success: false, message: error.message });

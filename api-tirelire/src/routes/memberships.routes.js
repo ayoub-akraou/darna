@@ -4,7 +4,7 @@ import authMiddleware from "../middlewares/authMiddleware.js";
 const router = Router();
 
 router.get("/", authMiddleware, MembershipController.index);
-router.post("/", authMiddleware, MembershipController.store);
+router.post("/:group_id", authMiddleware, MembershipController.store);
 router.get("/:id", authMiddleware, MembershipController.show);
 router.delete("/:id", authMiddleware, MembershipController.destroy);
 
