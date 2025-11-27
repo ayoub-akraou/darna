@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
 	LockClosedIcon,
@@ -14,6 +14,13 @@ export default function Login() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (token) {
+			navigate("/");
+		}
+	}, []);
 
 	const {
 		register,
