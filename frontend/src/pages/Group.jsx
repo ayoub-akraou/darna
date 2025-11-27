@@ -152,30 +152,28 @@ export default function GroupsDashboard() {
 				</div>
 
 				{/* Empty state */}
-				{((activeTab === "created" && filteredCreatedGroups.length === 0) ||
-					(activeTab === "membered" && filteredMemberedGroups.length === 0)) && (
-					<div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-white/20 p-12 text-center">
-						<UserGroupIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-						<h3 className="text-xl font-bold text-gray-800 mb-2">
-							Aucun groupe trouvé
-						</h3>
-						<p className="text-gray-600 mb-6">
-							{searchTerm
-								? "Aucun résultat pour votre recherche"
-								: activeTab === "created"
-									? "Créez votre premier groupe pour commencer"
-									: "Rejoignez un groupe pour participer"}
-						</p>
-						{!searchTerm && activeTab === "created" && (
-							<button
-								onClick={() => setShowCreateModal(true)}
-								className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all shadow-lg"
-							>
-								<PlusIcon className="w-5 h-5" />
-								Créer un groupe
-							</button>
-						)}
-					</div>
+				{activeTab === "created" && filteredCreatedGroups.length === 0 && (
+					<NoGroupsFound
+						activeTab={activeTab}
+						searchTerm={searchTerm}
+						message={"Créez votre premier groupe pour commencer"}
+					>
+						<CreateGroupButton setShowCreateModal={setShowCreateModal} />
+					</NoGroupsFound>
+				)}
+				{activeTab === "membered" && filteredMemberedGroups.length === 0 && (
+					<NoGroupsFound
+						activeTab={activeTab}
+						searchTerm={searchTerm}
+						message={"Rejoignez un groupe pour participer"}
+					/>
+				)}
+				{activeTab === "all" && allGroups.length === 0 && (
+					<NoGroupsFound
+						activeTab={activeTab}
+						searchTerm={searchTerm}
+						// message={"Rejoignez un groupe pour participer"}
+					/>
 				)}
 			</div>
 
@@ -328,3 +326,17 @@ function Tabs({ activeTab, setActiveTab, createdGroups, memberedGroups }) {
 		</div>
 	);
 }
+
+function NoGroupsFound({ searchTerm, message, children }) {
+	return (
+		<div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-white/20 p-12 text-center">
+			<UserGroupIcon className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+			<h3 className="text-xl font-bold text-gray-800 mb-2">Aucun groupe trouvé</h3>
+			<p className="text-gray-600 mb-6">
+				{searchTerm ? "Aucun résultat pour votre recherche" : message}
+			</p>
+			{children}
+		</div>
+	);
+}
+
