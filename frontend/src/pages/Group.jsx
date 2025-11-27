@@ -24,16 +24,18 @@ export default function GroupsDashboard() {
 	const [showDetailsModal, setShowDetailsModal] = useState(false);
 	const [selectedGroup, setSelectedGroup] = useState(null);
 	const [searchTerm, setSearchTerm] = useState("");
+	const [allGroups, setAllGroups] = useState([]);
 	const [createdGroups, setCreatedGroups] = useState([]);
 	const [memberedGroups, setMemberedGroups] = useState([]);
 
 	useEffect(() => {
 		async function fetchGroups() {
 			try {
+				const allGroups = await getAllGroups();
 				const createdGroups = await getCreatedGroups();
 				const memberedGroups = await getMemberedGroups();
-				console.log(createdGroups.data.data);
-				console.log(memberedGroups.data.data);
+
+				setAllGroups(allGroups.data.data);
 				setCreatedGroups(createdGroups.data.data);
 				setMemberedGroups(memberedGroups.data.data);
 			} catch (error) {
@@ -99,6 +101,7 @@ export default function GroupsDashboard() {
 					setActiveTab={setActiveTab}
 					createdGroups={createdGroups}
 					memberedGroups={memberedGroups}
+					allGroups={allGroups}
 				/>
 
 				{/* Search */}
@@ -131,11 +134,15 @@ export default function GroupsDashboard() {
 							);
 						})}
 
+					{activeTab === "all" &&
+						allGroups.map((group) => (
 							<GroupCard
 								key={group.id}
 								group={group}
 								frequencyLabels={frequencyLabels}
 								handleViewDetails={handleViewDetails}
+								handleJoinGroup={handleJoinGroup}
+								isJoined={memberedGroups.some((g) => g.id == group.id)}
 							/>
 						))}
 				</div>
@@ -171,6 +178,7 @@ export default function GroupsDashboard() {
 			{/* Create Group Modal */}
 			{showCreateModal && (
 				<CreateGroupForm
+					setAllGroups={setAllGroups}
 					setCreatedGroups={setCreatedGroups}
 					setShowCreateModal={setShowCreateModal}
 					setMemberedGroups={setMemberedGroups}
