@@ -3,7 +3,7 @@ import { HomeIcon, Cog6ToothIcon, ArrowRightOnRectangleIcon } from "@heroicons/r
 import LogoutBtn from "../components/Button/LogoutBtn.jsx";
 import { useEffect } from "react";
 
-export default function RootLayout() {
+export default function MainLayout() {
 	const navigate = useNavigate();
 	useEffect(() => {
 		if (!localStorage.getItem("token")) {
