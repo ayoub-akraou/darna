@@ -23,9 +23,13 @@ export default class GroupController {
 		try {
 			const group_id = req.params.group_id;
 			const members = await MembershipService.getMembers(group_id);
+			const group = await GroupService.getOne(group_id);
 			res.status(200).json({
 				success: true,
-				data: members,
+				data: {
+					group,
+					members,
+				},
 				message: "members retrieved successfully!",
 			});
 		} catch (error) {
@@ -53,6 +57,7 @@ export default class GroupController {
 		try {
 			const user_id = req.user?.id;
 			const groups = await GroupService.getGroupsMemberedByUser(user_id);
+
 			res.status(200).json({
 				success: true,
 				data: groups,

@@ -1,8 +1,13 @@
 import GroupRepository from "../repositories/GroupRepository.js";
+import MembershipService from "./MembershipService.js";
 
 export default class GroupService {
 	static async getAll() {
-		const groups = await GroupRepository.getAll();
+		let groups = await GroupRepository.getAll();
+		for(const group of groups) {
+			group.members = await MembershipService.getMembers(group.id);
+		}
+
 		return groups;
 	}
 
@@ -22,7 +27,7 @@ export default class GroupService {
 
 	static async delete(id) {
 		const group = await GroupRepository.delete(id);
-		
+
 		if (!group) {
 			const error = new Error("Not Found");
 			error.statusCode = 404;
@@ -33,11 +38,19 @@ export default class GroupService {
 
 	static async getGroupsCreatedByUser(user_id) {
 		const groups = await GroupRepository.getAll({ admin_id: user_id });
+		for (const group of groups) {
+			group.members = await MembershipService.getMembers(group.id);
+		}
+		
 		return groups;
 	}
 
 	static async getGroupsMemberedByUser(user_id) {
 		const groups = await GroupRepository.getGroupsMemberedByUser(user_id);
+		for (const group of groups) {
+			group.members = await MembershipService.getMembers(group.id);
+		}
+
 		return groups;
 	}
 }
